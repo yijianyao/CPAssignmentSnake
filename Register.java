@@ -11,14 +11,21 @@ import javax.swing.JTextField;
 
 public class Register  extends JFrame{
 
+	String nameString;
+	String passwordString;
+	
+	
 	public Register() {
 
+		nameString = "";
+		passwordString = "";
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 
 		setTitle("Register");
 		
-		setBounds(300, 200, 600, 600);
+		setBounds(300, 200, 400, 400);
 		Container container=getContentPane();	
 		container.setLayout(null);	
 		
@@ -38,36 +45,41 @@ public class Register  extends JFrame{
 		JPasswordField passwordTextbox=new JPasswordField();	
 		passwordTextbox.setBounds(130, 130, 150, 30);	
 		
+		
+		
 
+		JLabel passwordConfirmLabel=new JLabel("Same Password: ");
+		//passwordconfirm position
+		passwordConfirmLabel.setBounds(30, 190, 200, 30);
+		JPasswordField passwordConfirmtextBox=new JPasswordField();	
+		passwordConfirmtextBox.setBounds(130, 190, 150, 30);	
+		
+		
 
 		
-		JButton loginButton=new JButton("Login");	
+		JButton loginButton=new JButton("Register");	
 		
 		loginButton.addActionListener(new ActionListener(){		
 			
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if(nameTextbox.getText().trim().length()==0||new String(passwordTextbox.getPassword()).trim().length()==0){
-					JOptionPane.showMessageDialog(null, "Username or password cannot be null");
+					JOptionPane.showMessageDialog(null, "Username and password cannot be null");
 					return;
 				}
 				
 				
 				//if(validation(nameString, passwordString,"user.txt")){
 					
-				if(nameTextbox.getText().trim().equals("admin")&&new String(passwordTextbox.getPassword()).trim().equals("123456")){
-					JOptionPane.showMessageDialog(null, "Login succuessfully");
+				if(register(nameString, passwordString,"user.txt")) {
+					closeWin();
 					
-					
-					//TODO jump to game page
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "Username or password incorrect");
-				}
+
 			}
 		});
 		// login button position
-		loginButton.setBounds(60, 220, 80, 30);	
+		loginButton.setBounds(60, 260, 90, 30);	
 		container.add(loginButton);	
 		
 
@@ -85,25 +97,10 @@ public class Register  extends JFrame{
 
 		});
 		// reset button position
-		resetButton.setBounds(150, 220, 80, 30);	
+		resetButton.setBounds(200, 260, 80, 30);	
 		getContentPane().add(resetButton);
 		
 		
-		
-		JButton registerButton = new JButton();
-		registerButton.setText("Regiseter");
-		registerButton.addActionListener(new ActionListener(){		
-	
-			public void actionPerformed(ActionEvent arg0) {
-				//JUMP to register page
-				System.out.print("go to regsiter");
-			}
-
-
-		});
-		// register button position
-		registerButton.setBounds(240, 220, 100, 30);	
-		getContentPane().add(registerButton);
 		
 		
 		
@@ -113,11 +110,24 @@ public class Register  extends JFrame{
 		container.add(nameTextbox);
 		container.add(passwordLabel);
 		container.add(passwordTextbox);
+		container.add(passwordConfirmLabel);
+		container.add(passwordConfirmtextBox);
+		
         
 		setVisible(true);
 	}
 	public boolean register(String acc, String pass, String file) {
+		return true;
+	}
+	
+	
+	public boolean findAcc(String acc, String pass, String file) {
 		return false;
 	}
+	
+	public void closeWin() {
+		this.dispose();
+	}
+	
 	
 }
