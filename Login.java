@@ -2,6 +2,10 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentNavigableMap;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,14 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+
 public class Login extends JFrame{
 	
 	String nameString;
-	String passwordString;
+	char[] passwordString;
+	JTextField nameTextbox;
+	JPasswordField passwordTextbox;
+	
 	
 	public Login() {
 		nameString = "";
-		passwordString = "";
+		System.out.println("Login page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 
@@ -33,16 +43,16 @@ public class Login extends JFrame{
 		JLabel nameLabel=new JLabel("Username: ");
 		//username position
 		nameLabel.setBounds(60, 70, 200, 30);
-		JTextField nameTextbox=new JTextField();	
+		nameTextbox=new JTextField();	
 		nameTextbox.setBounds(130, 70, 150, 30);	
 		
 		
 		JLabel passwordLabel=new JLabel("Password: ");
 		//password position
 		passwordLabel.setBounds(60, 130, 200, 30);
-		JPasswordField passwordTextbox=new JPasswordField();	
+		passwordTextbox=new JPasswordField();	
 		passwordTextbox.setBounds(130, 130, 150, 30);	
-		
+		passwordString = passwordTextbox.getPassword();
 
 
 		
@@ -58,9 +68,9 @@ public class Login extends JFrame{
 				}
 				
 				
-				//if(validation(nameString, passwordString,"user.txt")){
+				if(validation(nameTextbox.getText(), passwordTextbox.getPassword(),"user")){
 					
-				if(nameTextbox.getText().trim().equals("admin")&&new String(passwordTextbox.getPassword()).trim().equals("123456")){
+				//if(nameTextbox.getText().trim().equals("admin")&&new String(passwordTextbox.getPassword()).trim().equals("123456")){
 					JOptionPane.showMessageDialog(null, "Login succuessfully");
 					
 					
@@ -123,7 +133,33 @@ public class Login extends JFrame{
 		setVisible(true);
 	}
 	
-	public boolean validation(String acc, String pass, String file) {
+	public boolean validation(String acc, char[] pass, String file) {
+		
+		DB db = DBMaker.newFileDB(new File("MultiSnake"))
+				 .closeOnJvmShutdown()
+				 .encryptionEnable("password")
+				 .make();
+		
+		// create a treeMap or table call
+		ConcurrentNavigableMap<String, char[]> table = db.getTreeMap(file);
+		
+		
+		// can't find this user name
+		if(table.get(acc) == null) {
+			//System.out.println("no User name");
+			db.close();
+			return false;
+		}
+		char[] realPassword = table.get(acc);
+		
+		
+		// match!!!
+		if(Arrays.equals(realPassword, pass)) {
+			db.close();
+			return true;
+		}
+		//System.out.print("wrong pass");
+		db.close();
 		return false;
 	}
 
