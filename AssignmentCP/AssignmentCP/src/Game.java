@@ -19,7 +19,7 @@ public class Game extends JFrame{
 		
 		
 		this.add(panel);
-		
+		this.addKeyListener(panel);
 		
 		//this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,15 +29,19 @@ public class Game extends JFrame{
 	public static void main(String[] args) {
 		Game m = new Game();
 		
+		
+		m.panel.fruit.randomXY();
+		
+		
+		Thread t1 = new Thread(m.panel.snake);
+		Thread t2 = new Thread(m.panel.snake);
+		
+		t1.start();
+		t2.start();
+		
 		while(true) {
-			try {
-				m.panel.fruit.randomXY();
-				m.panel.repaint();
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			m.panel.repaint();
+			//Thread.sleep(500);
 		}
 	}
 
