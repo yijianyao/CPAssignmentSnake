@@ -155,7 +155,7 @@ public class Register  extends JFrame{
 			return true;
 		// user name already exist
 		}else {
-			
+			db.close();
 			return false;
 		}
 	}

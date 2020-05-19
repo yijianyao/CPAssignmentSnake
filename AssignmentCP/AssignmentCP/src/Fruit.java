@@ -28,7 +28,7 @@ public class Fruit {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		randomXY();
 	}
 	
 	
@@ -38,8 +38,8 @@ public class Fruit {
 	
 	
 	public void randomXY() {
-		this.x = ran.nextInt(Game.WIDTH-this.width);
-		this.y = ran.nextInt(Game.HEIGHT-this.height);
+		this.x = ran.nextInt(Game.WIDTH-this.width*2);
+		this.y = ran.nextInt(Game.HEIGHT-this.height*2);
 	}
 
 
