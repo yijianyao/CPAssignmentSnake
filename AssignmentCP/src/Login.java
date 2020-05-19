@@ -135,6 +135,8 @@ public class Login extends JFrame{
 	
 	public boolean validation(String acc, char[] pass, String file) {
 		
+		
+		// create database
 		DB db = DBMaker.newFileDB(new File("MultiSnake"))
 				 .closeOnJvmShutdown()
 				 .encryptionEnable("password")
@@ -150,6 +152,7 @@ public class Login extends JFrame{
 			db.close();
 			return false;
 		}
+		
 		char[] realPassword = table.get(acc);
 		
 		
