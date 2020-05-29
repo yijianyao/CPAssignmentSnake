@@ -24,6 +24,7 @@ public class Login extends JFrame{
 	JTextField nameTextbox;
 	JPasswordField passwordTextbox;
 	
+	boolean pass = false;
 	
 	public Login() {
 		nameString = "";
@@ -75,6 +76,9 @@ public class Login extends JFrame{
 					
 					
 					//TODO jump to game page
+					
+					pass = true;
+					setVisible(false);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "Username or password incorrect");

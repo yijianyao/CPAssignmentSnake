@@ -20,6 +20,10 @@ public class Snake implements Runnable{
 
 	// global game speed
 	int speed;
+	int timerForSnakeStep;
+	Random ran;
+	private int scores;
+	boolean isRun = true;
 
 	public Snake(int x, int y) {
 		//start point
@@ -37,6 +41,11 @@ public class Snake implements Runnable{
 		isAlive = true;
 
 		speed = 400;
+		ran = new Random();
+
+		timerForSnakeStep = ran.nextInt(5);
+
+		scores = 0;
 	}
 
 
@@ -52,6 +61,7 @@ public class Snake implements Runnable{
 		int sblastX = sb.get(sb.size()-1).getX();
 		int sblastY = sb.get(sb.size()-1).getY();
 		sb.add(new SnakeBody(sblastX,sblastY));
+		increaseScore();
 	}
 
 	// let snakebody move
@@ -60,6 +70,7 @@ public class Snake implements Runnable{
 			// move the body the one index before me
 			sb.get(i).move_To(sb.get(i-1));
 		}
+
 	}
 
 	public SnakeBody getHead() {
@@ -123,6 +134,18 @@ public class Snake implements Runnable{
 
 	@Override
 	public void run() {
+		
+		
+		
+		/*
+		while(isRun==false) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 
 		while(isHitBorder() == false ) {
 			Random r = new Random();
@@ -131,6 +154,7 @@ public class Snake implements Runnable{
 			int ranDirection = r.nextInt(4);
 
 			//System.out.println("Now is: " + Thread.currentThread().getName());
+
 
 			// random for bot
 			if(!Thread.currentThread().getName().equalsIgnoreCase("0")) {
@@ -156,12 +180,19 @@ public class Snake implements Runnable{
 					getHead().y += 20;
 
 				}
-
-
+				/*
+				try {
+					Thread.sleep(timerForSnakeStep*1000);
+					timerForSnakeStep = ran.nextInt(5);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 */
 				// user controlling
 			}else {
 
-
+				//System.out.println("The task begin startTime:" + System.currentTimeMillis());
 				// To west
 				if(direction == 0) {
 					updateSnakeBody();
@@ -189,10 +220,11 @@ public class Snake implements Runnable{
 
 
 
+
 			// set Game speed
 			try {
 				// game speed!
-				Thread.sleep(speed);
+				Thread.sleep(150);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -215,7 +247,7 @@ public class Snake implements Runnable{
 				// succfully
 				fruit.randomXY();
 				this.extendSnake();
-				
+
 				decreasedSpeed(50);
 				System.out.println("Eat one!!");
 			}
@@ -229,10 +261,36 @@ public class Snake implements Runnable{
 	}
 
 
+	public synchronized void setRun(boolean run) {
+		if(run == true) {
+			this.isRun = false;
+			this.notifyAll();
+			
+		}
+		else {
+			this.isRun = true;
+			
+		}
+	}
+	
+	
 	public synchronized void decreasedSpeed(int s) {
 		if(this.speed > 99) {
 			this.speed -= s ;
 		}
+	}
+
+
+	public synchronized void increaseScore() {
+		this.scores++;
+	}
+
+	public  int getScore() {
+		return this.scores;
+	}
+
+	public boolean getIsRun() {
+		return this.isRun;
 	}
 
 }

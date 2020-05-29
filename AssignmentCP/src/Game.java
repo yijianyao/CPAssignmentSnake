@@ -44,7 +44,7 @@ public class Game extends JFrame{
 			
 			Thread snakeThread = new Thread(snakes.get(i),Integer.toString(i));
 			//snakeThread.setName("sss");
-			
+			//System.out.println("snake is: " + snakeThread.getName());
 			
 			snakeThread.start();
 			
@@ -57,24 +57,7 @@ public class Game extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Game m = new Game();
-		
-		m.initSnakes(3);
-		
-		m.panel.fruit.randomXY();
-		
-		
-		//Thread t1 = new Thread(m.panel.snake);
-		
-		//Thread t2 = new Thread(m.panel.snake);
-		
-		//t1.start();
-		//t2.start();
-		
-		while(true) {
-			m.panel.repaint();
-			//Thread.sleep(500);
-		}
+
 	}
 
 }

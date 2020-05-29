@@ -1,38 +1,115 @@
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-
+import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Map extends JPanel implements KeyListener{
 
 
+
 	Fruit fruit;
-	float timer;
-
+	double timer;
+	double startTime;
 	ArrayList<Snake> snakes;
-	
 
+
+	JLabel label;
+	JLabel scoreLabel;
+
+	JLabel label1;
+	JLabel numberOfSnakesLabel;
+	
+	JLabel label2;
+	JLabel timerLabel;
+
+	JLabel pauseLabel;
+	int totalScore;
 
 	public Map() {
 		timer = 0;
 		this.setBackground(Color.WHITE);
+		totalScore = 0;
+
+
 
 		init();
+		initLabel();
+
+
+		this.add(label);
+		this.add(scoreLabel);
+		this.add(label1);
+		this.add(numberOfSnakesLabel);
+		this.add(pauseLabel);
+		this.add(label2);
+		this.add(timerLabel);
+		startTime = System.currentTimeMillis();
 	}
 
 	public void init() {
-		fruit = new Fruit(0,0,20,20);
+		fruit = new Fruit(0,0,30,30);
 		fruit.randomXY();
 
 
 		snakes = new ArrayList<Snake>();
 
+	}
+
+	public void initLabel() {
+		Font font = new Font("Arial", Font.PLAIN, 25);//创建1个字体实例
+
+		this.setLayout(null);
+		label = new JLabel("Score: ");
+		label.setSize(80, 20);
+		label.setLocation(10, 10);
+		label.setFont(font);
+
+
+		scoreLabel = new JLabel("0");
+		scoreLabel.setSize(100, 20);
+		scoreLabel.setLocation(90, 12);
+		scoreLabel.setFont(font);
+
+
+		label1 = new JLabel("Snakes: ");
+		label1.setSize(100, 20);
+		label1.setLocation(180, 10);
+		label1.setFont(font);
+
+
+		numberOfSnakesLabel = new JLabel("0");
+		numberOfSnakesLabel.setSize(100, 20);
+		numberOfSnakesLabel.setLocation(280, 12);
+		numberOfSnakesLabel.setFont(font);
+		
+		pauseLabel = new JLabel("-----------------PAUSE-----------------");
+		pauseLabel.setSize(500, 20);
+		pauseLabel.setLocation(100, 300);
+		pauseLabel.setFont(font);
+		pauseLabel.setVisible(false);
+		
+		
+		label2 = new JLabel("Time: ");
+		label2.setSize(100, 20);
+		label2.setLocation(360, 10);
+		label2.setFont(font);
+
+
+		timerLabel = new JLabel("0.0");
+		timerLabel.setSize(100, 20);
+		timerLabel.setLocation(430, 12);
+		timerLabel.setFont(font);
+		
+		
+		
 	}
 
 	public void setSnakes(ArrayList<Snake> snakes) {
@@ -105,6 +182,26 @@ public class Map extends JPanel implements KeyListener{
 			System.out.println("right");
 			snakes.get(0).changeDirection(2);
 			break;
+		case KeyEvent.VK_P:
+			System.out.println("p");
+			System.out.println(snakes.get(0).getIsRun());
+			/*
+			for(int i = 0 ; i < snakes.size(); i++) {
+				if(snakes.get(i).getIsRun() == true) {
+					
+					snakes.get(i).setRun(true);
+
+					pauseLabel.setVisible(true);
+				}else {
+					snakes.get(i).setRun(false);
+					
+					pauseLabel.setVisible(false);
+				}
+			}
+			*/
+			System.out.println(snakes.get(0).getIsRun());
+
+			break;
 		default:
 			// Unsup
 			break;
@@ -123,7 +220,35 @@ public class Map extends JPanel implements KeyListener{
 
 	}
 
+	public void updateLabel() {
+		totalScore = 0;
+		for(int i = 0 ; i < snakes.size(); i++) {
 
+			totalScore+=snakes.get(i).getScore();
+
+		}
+		this.scoreLabel.setText(Integer.toString(totalScore));
+
+
+		int count = 0;
+		for(int i = 0 ; i < snakes.size(); i++) {
+			if(this.snakes.get(i).isAlive == true) {
+				count++;
+			}
+		}
+		
+		this.numberOfSnakesLabel.setText(Integer.toString(count));
+		this.pauseLabel.setText("-----------------PAUSE-----------------");
+		
+		timer = (System.currentTimeMillis() - this.startTime)/1000;
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+		
+		String s = df.format(timer);
+		
+		this.timerLabel.setText(s);
+		
+	}
 
 
 }
