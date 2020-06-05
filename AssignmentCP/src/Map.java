@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 public class Map extends JPanel implements KeyListener{
 
 
-
 	Fruit fruit;
 	double timer;
 	double startTime;
@@ -26,24 +25,25 @@ public class Map extends JPanel implements KeyListener{
 
 	JLabel label1;
 	JLabel numberOfSnakesLabel;
-	
+
 	JLabel label2;
 	JLabel timerLabel;
 
 	JLabel pauseLabel;
 	int totalScore;
+	int numberOfAvailableSnake;
 
 	public Map() {
 		timer = 0;
 		this.setBackground(Color.WHITE);
 		totalScore = 0;
-
-
+		
+		numberOfAvailableSnake=100;
 
 		init();
 		initLabel();
 
-
+		
 		this.add(label);
 		this.add(scoreLabel);
 		this.add(label1);
@@ -89,14 +89,14 @@ public class Map extends JPanel implements KeyListener{
 		numberOfSnakesLabel.setSize(100, 20);
 		numberOfSnakesLabel.setLocation(280, 12);
 		numberOfSnakesLabel.setFont(font);
-		
+
 		pauseLabel = new JLabel("-----------------PAUSE-----------------");
 		pauseLabel.setSize(500, 20);
 		pauseLabel.setLocation(100, 300);
 		pauseLabel.setFont(font);
 		pauseLabel.setVisible(false);
-		
-		
+
+
 		label2 = new JLabel("Time: ");
 		label2.setSize(100, 20);
 		label2.setLocation(360, 10);
@@ -107,9 +107,9 @@ public class Map extends JPanel implements KeyListener{
 		timerLabel.setSize(100, 20);
 		timerLabel.setLocation(430, 12);
 		timerLabel.setFont(font);
-		
-		
-		
+
+
+
 	}
 
 	public void setSnakes(ArrayList<Snake> snakes) {
@@ -188,17 +188,17 @@ public class Map extends JPanel implements KeyListener{
 			/*
 			for(int i = 0 ; i < snakes.size(); i++) {
 				if(snakes.get(i).getIsRun() == true) {
-					
+
 					snakes.get(i).setRun(true);
 
 					pauseLabel.setVisible(true);
 				}else {
 					snakes.get(i).setRun(false);
-					
+
 					pauseLabel.setVisible(false);
 				}
 			}
-			*/
+			 */
 			System.out.println(snakes.get(0).getIsRun());
 
 			break;
@@ -227,7 +227,7 @@ public class Map extends JPanel implements KeyListener{
 			totalScore+=snakes.get(i).getScore();
 
 		}
-		this.scoreLabel.setText(Integer.toString(totalScore));
+
 
 
 		int count = 0;
@@ -236,18 +236,29 @@ public class Map extends JPanel implements KeyListener{
 				count++;
 			}
 		}
-		
-		this.numberOfSnakesLabel.setText(Integer.toString(count));
-		this.pauseLabel.setText("-----------------PAUSE-----------------");
-		
+
 		timer = (System.currentTimeMillis() - this.startTime)/1000;
-		
+
 		DecimalFormat df = new DecimalFormat("#.00");
-		
-		String s = df.format(timer);
-		
-		this.timerLabel.setText(s);
-		
+
+		numberOfAvailableSnake = count;
+
+		if(numberOfAvailableSnake>0) {
+
+
+
+			this.scoreLabel.setText(Integer.toString(totalScore));
+			this.numberOfSnakesLabel.setText(Integer.toString(count));
+			this.pauseLabel.setText("-----------------PAUSE-----------------");
+
+
+
+			String s = df.format(timer);
+
+			this.timerLabel.setText(s);
+
+		}
+
 	}
 
 

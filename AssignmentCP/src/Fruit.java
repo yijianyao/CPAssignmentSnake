@@ -38,8 +38,10 @@ public class Fruit {
 	
 	
 	public void randomXY() {
-		this.x = ran.nextInt(Game.WIDTH-this.width*2);
-		this.y = ran.nextInt(Game.HEIGHT-this.height*2);
+		this.x = ran.nextInt(Game.WIDTH-this.width*2-50);
+		this.y = ran.nextInt(Game.HEIGHT-this.height*2-50);
+		this.x+=50;
+		this.y+=50;
 	}
 
 

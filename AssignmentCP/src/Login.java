@@ -76,7 +76,7 @@ public class Login extends JFrame{
 					
 					
 					//TODO jump to game page
-					
+				
 					pass = true;
 					setVisible(false);
 				}
