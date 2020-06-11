@@ -37,13 +37,20 @@ public class Game extends JFrame{
 		this.addKeyListener(panel);
 	}
 	
-	public void initSnakes(int numberOfSnakes) {
+	public synchronized void initSnakes(int numberOfSnakes) {
 		snakes = new ArrayList<Snake>();
 		
 		Random r = new Random();
 		int numberOfRow = WIDTH/20 - 1;
 		int numberOfCol = HEIGHT/20 - 1;
 		
+		/*snakes.add(new Snake(300,200));
+		
+		Thread snakeThread = new Thread(snakes.get(0),Integer.toString(0));
+		//snakeThread.setName("sss");
+		//System.out.println("snake is: " + snakeThread.getName());
+		
+		snakeThread.start();*/
 		
 		//snake new location
 		for(int i = 0 ; i < numberOfSnakes; i++) {	

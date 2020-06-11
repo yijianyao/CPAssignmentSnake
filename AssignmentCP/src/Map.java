@@ -112,11 +112,11 @@ public class Map extends JPanel implements KeyListener{
 
 	}
 
-	public void setSnakes(ArrayList<Snake> snakes) {
+	public synchronized void setSnakes(ArrayList<Snake> snakes) {
 		this.snakes = snakes;
 	}
 
-	public void paint(Graphics g){
+	public synchronized void paint(Graphics g){
 
 		super.paint(g);
 		g.drawImage(fruit.getImg(), fruit.getX(),fruit.getY(),20,20,null);
